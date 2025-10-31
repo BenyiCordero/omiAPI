@@ -31,8 +31,8 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public Optional<Persona> findById(Integer id) {
-        Optional<Persona> persona = personaRepository.findById(id);
+    public Optional<Persona> findById(Integer idPersona) {
+        Optional<Persona> persona = personaRepository.findById(idPersona);
         if(persona.isPresent()) return persona;
         else throw new UsuarioNoEncontradoException();
     }
