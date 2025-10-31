@@ -17,7 +17,7 @@ public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer idPersona;
     @Column(nullable = false, length = 50)
     private String nombre;
     @Column(nullable = false, length = 50)
