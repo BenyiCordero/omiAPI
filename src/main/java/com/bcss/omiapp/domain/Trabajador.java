@@ -24,7 +24,7 @@ public class Trabajador {
     @Column(nullable = false)
     private Float salario;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "persona_id")
+    @JoinColumn(name = "id_persona")
     private Persona persona;
 
 }
