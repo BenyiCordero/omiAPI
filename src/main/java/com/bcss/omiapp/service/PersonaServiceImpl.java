@@ -19,13 +19,14 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona save(Persona persona) {
+        System.out.println(persona.getNumeroTelefono());
         if(personaRepository.existsPersonaByNumeroTelefono(persona.getNumeroTelefono())) throw new PersonaRepetidaException();
         return personaRepository.save(persona);
     }
 
     @Override
     public Optional<Persona> findByTelefono(String telefono) {
-        Optional<Persona> persona = personaRepository.findByTelefono(telefono);
+        Optional<Persona> persona = personaRepository.findByNumeroTelefono(telefono);
         if(persona.isPresent()) return persona;
         else throw new UsuarioNoEncontradoException();
     }
