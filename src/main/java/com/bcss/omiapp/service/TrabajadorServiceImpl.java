@@ -1,6 +1,5 @@
 package com.bcss.omiapp.service;
 
-import com.bcss.omiapp.domain.Persona;
 import com.bcss.omiapp.domain.Trabajador;
 import com.bcss.omiapp.exception.PersonaRepetidaException;
 import com.bcss.omiapp.exception.UsuarioNoEncontradoException;
@@ -22,7 +21,6 @@ public class TrabajadorServiceImpl implements TrabajadorService {
 
     @Override
     public Trabajador save(Trabajador trabajador) {
-        personaService.save(trabajador.getPersona());
         if (trabajadorRepository.existsByEmail(trabajador.getEmail())) throw new PersonaRepetidaException();
         return trabajadorRepository.save(trabajador);
     }
