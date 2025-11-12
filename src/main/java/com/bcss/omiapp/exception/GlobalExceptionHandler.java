@@ -16,5 +16,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleException(UsuarioNoEncontradoException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+    @ExceptionHandler(CredencialesInvalidasException.class)
+    public ResponseEntity<String> handleException(CredencialesInvalidasException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    @ExceptionHandler(TokenInvalidoException.class)
+    public ResponseEntity<String> handleException(TokenInvalidoException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 
 }
