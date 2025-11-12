@@ -26,7 +26,7 @@ public class Persona {
     private String segundoApellido;
     @Column(nullable = false, length = 12, unique = true)
     private String numeroTelefono;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
 
