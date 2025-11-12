@@ -19,13 +19,13 @@ public class Trabajador {
     private Integer idUsuario;
     @Column(nullable = false, length = 50, unique = true)
     private String email;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private Float horasSemana;
     @Column(nullable = false)
     private Float salario;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id_persona")
     private Persona persona;
 
