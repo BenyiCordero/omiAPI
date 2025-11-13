@@ -1,6 +1,7 @@
 package com.bcss.omiapp.config;
 
 import com.bcss.omiapp.auth.JwtAuthenticationFiter;
+import com.bcss.omiapp.auth.Rol;
 import com.bcss.omiapp.domain.Token;
 import com.bcss.omiapp.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/qr").hasRole("ADMIN")
+                                .requestMatchers("/worker/**").hasAnyRole("ADMIN", "WORKER")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
