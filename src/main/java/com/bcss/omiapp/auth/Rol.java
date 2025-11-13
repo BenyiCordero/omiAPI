@@ -1,7 +1,7 @@
 package com.bcss.omiapp.auth;
 
 public enum Rol {
-    ADMIN,
-    TRABAJADOR,
-    USUARIO
+    ROLE_ADMIN,
+    ROLE_TRABAJADOR,
+    ROLE_USUARIO
 }
