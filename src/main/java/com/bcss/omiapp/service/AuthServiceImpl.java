@@ -43,7 +43,6 @@ public class AuthServiceImpl implements AuthService {
                 .primerApellido(trabajadorRegisterRequest.primerApellido())
                 .segundoApellido(trabajadorRegisterRequest.segundoApellido())
                 .numeroTelefono(trabajadorRegisterRequest.numeroTelefono())
-                .rol(trabajadorRegisterRequest.rol())
                 .build();
         Persona personaSaved = personaService.save(persona);
         Trabajador trabajador = Trabajador
@@ -52,6 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(trabajadorRegisterRequest.password()))
                 .horasSemana(trabajadorRegisterRequest.horasSemana())
                 .salario(trabajadorRegisterRequest.salario())
+                .rol(trabajadorRegisterRequest.rol())
                 .persona(personaSaved)
                 .build();
         trabajadorService.save(trabajador);

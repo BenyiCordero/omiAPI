@@ -8,8 +8,8 @@ public record TrabajadorRegisterRequest(
         String primerApellido,
         String segundoApellido,
         String numeroTelefono,
-        Rol rol,
         //Trabajador
+        Rol rol,
         String email,
         String password,
         Float horasSemana,
