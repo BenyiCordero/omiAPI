@@ -2,10 +2,13 @@ package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Sucursal;
 import com.bcss.omiapp.domain.Trabajador;
+import com.bcss.omiapp.exception.NotFoundException;
+import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.SucursalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SucursalServiceImpl implements SucursalService {
@@ -19,12 +22,15 @@ public class SucursalServiceImpl implements SucursalService {
 
     @Override
     public Sucursal save(Sucursal sucursal) {
-        return null;
+        if(sucursalRepository.existsById(sucursal.getIdSucursal())) throw new RepeatedException("Sucursal ya existente");
+        return sucursalRepository.save(sucursal);
     }
 
     @Override
     public Sucursal findById(Integer id) {
-        return null;
+        Optional<Sucursal> sucursal = sucursalRepository.findById(id);
+        if(sucursal.isPresent()) return sucursal.get();
+        else throw new NotFoundException("Sucursal no existente");
     }
 
     @Override

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(CredencialesInvalidasException.class)
-    public ResponseEntity<String> handleException(CredencialesInvalidasException e){
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleException(InvalidCredentialsException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-    @ExceptionHandler(TokenInvalidoException.class)
-    public ResponseEntity<String> handleException(TokenInvalidoException e){
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<String> handleException(InvalidTokenException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
     @ExceptionHandler(NotFoundException.class)
