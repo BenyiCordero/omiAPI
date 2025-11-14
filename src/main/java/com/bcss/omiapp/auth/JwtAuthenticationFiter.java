@@ -91,7 +91,7 @@ public class JwtAuthenticationFiter extends OncePerRequestFilter {
                     if (authorities == null || authorities.isEmpty()) {
                         String rolEntidad = null;
                         if (userOpt.get().getPersona() != null) {
-                            rolEntidad = String.valueOf(userOpt.get().getPersona().getRol());
+                            rolEntidad = String.valueOf(userOpt.get().getRol());
                         }
 
                         if (rolEntidad != null) {
