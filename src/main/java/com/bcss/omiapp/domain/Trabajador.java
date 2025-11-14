@@ -28,5 +28,8 @@ public class Trabajador {
     @OneToOne
     @JoinColumn(name = "id_persona")
     private Persona persona;
+    @ManyToOne
+    @JoinColumn(name = "id_sucursal")
+    private Sucursal sucursal;
 
 }

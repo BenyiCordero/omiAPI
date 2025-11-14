@@ -19,7 +19,6 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona save(Persona persona) {
-        System.out.println(persona.getNumeroTelefono());
         if(personaRepository.existsPersonaByNumeroTelefono(persona.getNumeroTelefono())) throw new PersonaRepetidaException();
         return personaRepository.save(persona);
     }
