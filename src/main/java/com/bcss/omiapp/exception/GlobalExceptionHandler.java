@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(PersonaRepetidaException.class)
-    public ResponseEntity<String> handleException(PersonaRepetidaException e){
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleException(InvalidCredentialsException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-    @ExceptionHandler(UsuarioNoEncontradoException.class)
-    public ResponseEntity<String> handleException(UsuarioNoEncontradoException e){
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<String> handleException(InvalidTokenException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-    @ExceptionHandler(CredencialesInvalidasException.class)
-    public ResponseEntity<String> handleException(CredencialesInvalidasException e){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleException(NotFoundException e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
-    @ExceptionHandler(TokenInvalidoException.class)
-    public ResponseEntity<String> handleException(TokenInvalidoException e){
+    @ExceptionHandler(RepeatedException.class)
+    public ResponseEntity<String> handleException(RepeatedException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 

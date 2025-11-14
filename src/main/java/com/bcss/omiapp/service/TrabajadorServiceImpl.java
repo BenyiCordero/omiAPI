@@ -1,8 +1,8 @@
 package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Trabajador;
-import com.bcss.omiapp.exception.PersonaRepetidaException;
-import com.bcss.omiapp.exception.UsuarioNoEncontradoException;
+import com.bcss.omiapp.exception.NotFoundException;
+import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.TrabajadorRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,16 +12,14 @@ import java.util.Optional;
 public class TrabajadorServiceImpl implements TrabajadorService {
 
     private final TrabajadorRepository trabajadorRepository;
-    private final PersonaService personaService;
 
-    public TrabajadorServiceImpl(TrabajadorRepository trabajadorRepository, PersonaService personaService) {
+    public TrabajadorServiceImpl(TrabajadorRepository trabajadorRepository) {
         this.trabajadorRepository = trabajadorRepository;
-        this.personaService = personaService;
     }
 
     @Override
     public Trabajador save(Trabajador trabajador) {
-        if (trabajadorRepository.existsByEmail(trabajador.getEmail())) throw new PersonaRepetidaException();
+        if (trabajadorRepository.existsByEmail(trabajador.getEmail())) throw new RepeatedException("Trabajador ya existente");
         return trabajadorRepository.save(trabajador);
     }
 
@@ -29,13 +27,13 @@ public class TrabajadorServiceImpl implements TrabajadorService {
     public Optional<Trabajador> findByEmail(String email) {
         Optional<Trabajador> trabajador = trabajadorRepository.findByEmail(email);
         if(trabajador.isPresent()) return trabajador;
-        else throw new UsuarioNoEncontradoException();
+        else throw new NotFoundException("Trabajador no encontrado");
     }
 
     @Override
     public Optional<Trabajador> findById(Integer idTrabajador) {
         Optional<Trabajador> trabajador = trabajadorRepository.findById(idTrabajador);
         if (trabajador.isPresent()) return trabajador;
-        else throw new UsuarioNoEncontradoException();
+        else throw new NotFoundException("Trabajador no encontrado");
     }
 }

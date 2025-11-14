@@ -1,8 +1,8 @@
 package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Persona;
-import com.bcss.omiapp.exception.PersonaRepetidaException;
-import com.bcss.omiapp.exception.UsuarioNoEncontradoException;
+import com.bcss.omiapp.exception.NotFoundException;
+import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.PersonaRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona save(Persona persona) {
-        if(personaRepository.existsPersonaByNumeroTelefono(persona.getNumeroTelefono())) throw new PersonaRepetidaException();
+        if(personaRepository.existsPersonaByNumeroTelefono(persona.getNumeroTelefono())) throw new RepeatedException("Persona ya existente");
         return personaRepository.save(persona);
     }
 
@@ -27,20 +27,20 @@ public class PersonaServiceImpl implements PersonaService {
     public Optional<Persona> findByTelefono(String telefono) {
         Optional<Persona> persona = personaRepository.findByNumeroTelefono(telefono);
         if(persona.isPresent()) return persona;
-        else throw new UsuarioNoEncontradoException();
+        else throw new NotFoundException("Persona no encontrada");
     }
 
     @Override
     public Optional<Persona> findById(Integer idPersona) {
         Optional<Persona> persona = personaRepository.findById(idPersona);
         if(persona.isPresent()) return persona;
-        else throw new UsuarioNoEncontradoException();
+        else throw new NotFoundException("Persona no encontrada");
     }
 
     @Override
     public Optional<Persona> findByNombre(String nombre) {
         Optional<Persona> persona = personaRepository.findByNombre(nombre);
         if(persona.isPresent()) return persona;
-        else throw new UsuarioNoEncontradoException();
+        else throw new NotFoundException("Persona no encontrada");
     }
 }

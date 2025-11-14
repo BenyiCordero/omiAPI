@@ -7,8 +7,8 @@ import com.bcss.omiapp.domain.Trabajador;
 import com.bcss.omiapp.dto.request.TrabajadorAuthRequest;
 import com.bcss.omiapp.dto.request.TrabajadorRegisterRequest;
 import com.bcss.omiapp.dto.response.TokenResponse;
-import com.bcss.omiapp.exception.CredencialesInvalidasException;
-import com.bcss.omiapp.exception.TokenInvalidoException;
+import com.bcss.omiapp.exception.InvalidCredentialsException;
+import com.bcss.omiapp.exception.InvalidTokenException;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -72,8 +72,8 @@ public class AuthServiceImpl implements AuthService {
                                 trabajadorAuthRequest.password()
                             )
                     );
-        } catch (CredencialesInvalidasException ex){
-            throw new CredencialesInvalidasException();
+        } catch (InvalidCredentialsException ex){
+            throw new InvalidCredentialsException();
         }
 
         Optional<Trabajador> trabajador = trabajadorService.findByEmail(trabajadorAuthRequest.email());
@@ -108,7 +108,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public TokenResponse refreshToken(String authentication) {
         if (authentication == null || !authentication.startsWith("Bearer ")) {
-            throw new TokenInvalidoException();
+            throw new InvalidTokenException();
         }
         String refreshToken = authentication.substring(7);
         String email = tokenService.extractUsername(refreshToken);
