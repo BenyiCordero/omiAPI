@@ -19,7 +19,23 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Persona save(Persona persona) {
-        if(personaRepository.existsPersonaByNumeroTelefono(persona.getNumeroTelefono())) throw new RepeatedException("Persona ya existente");
+        String telefono = persona.getNumeroTelefono();
+
+        if (persona.getIdPersona() == null) {
+            if (personaRepository.existsPersonaByNumeroTelefono(telefono)) {
+                throw new RepeatedException("Persona ya existente");
+            }
+            return personaRepository.save(persona);
+        }
+
+        Optional<Persona> personaOptional = personaRepository.findByNumeroTelefono(telefono);
+        if (personaOptional.isPresent()) {
+            Persona found = personaOptional.get();
+            if (!found.getIdPersona().equals(persona.getIdPersona())) {
+                throw new RepeatedException("Número de teléfono ya asociado a otra persona");
+            }
+        }
+
         return personaRepository.save(persona);
     }
 
