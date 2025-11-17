@@ -2,17 +2,13 @@ package com.bcss.omiapp.dto.request;
 
 import com.bcss.omiapp.auth.Rol;
 
-public record TrabajadorRegisterRequest(
+public record ClienteRegisterRequest(
         //Persona
         String nombre,
         String primerApellido,
         String segundoApellido,
         String numeroTelefono,
-        //Trabajador
-        Rol rol,
-        String email,
-        String password,
-        Float horasSemana,
-        Float salario
+        //Cliente
+        Boolean creditoActivo
 ) {
 }
