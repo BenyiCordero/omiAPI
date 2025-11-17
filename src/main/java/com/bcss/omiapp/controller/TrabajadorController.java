@@ -16,8 +16,8 @@ public class TrabajadorController {
         this.trabajadorService = trabajadorService;
     }
 
-    @GetMapping("/getByEmail/{email}")
-    public ResponseEntity<?> getByEmail(@PathVariable String email) {
+    @GetMapping("/getByEmail")
+    public ResponseEntity<?> getByEmail(@RequestBody String email) {
         return ResponseEntity.status(HttpStatus.OK).body(trabajadorService.findByEmail(email));
     }
 
@@ -25,5 +25,4 @@ public class TrabajadorController {
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(trabajadorService.findById(id));
     }
-
 }

@@ -56,6 +56,7 @@ public class SecurityConfig {
                         req.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/qr").hasRole("ADMIN")
                                 .requestMatchers("/worker/**").hasAnyRole("ADMIN", "WORKER")
+                                .requestMatchers("/sucursal/**").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
