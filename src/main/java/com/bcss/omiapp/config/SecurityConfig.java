@@ -56,6 +56,7 @@ public class SecurityConfig {
                         req.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/qr").hasRole("ADMIN")
                                 .requestMatchers("/worker/**").hasAnyRole("ADMIN", "WORKER")
+                                .requestMatchers("/sucursal/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "WORKER")
                                 .anyRequest().authenticated()
                 )

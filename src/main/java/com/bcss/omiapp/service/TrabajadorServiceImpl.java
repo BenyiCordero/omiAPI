@@ -6,6 +6,7 @@ import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.TrabajadorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +36,10 @@ public class TrabajadorServiceImpl implements TrabajadorService {
         Optional<Trabajador> trabajador = trabajadorRepository.findById(idTrabajador);
         if (trabajador.isPresent()) return trabajador;
         else throw new NotFoundException("Trabajador no encontrado");
+    }
+
+    @Override
+    public List<Trabajador> findAllTrabajadoresBySucursal(Integer id) {
+        return null;
     }
 }

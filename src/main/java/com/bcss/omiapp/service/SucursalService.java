@@ -12,5 +12,6 @@ public interface SucursalService {
     List<Sucursal> getAllSucursales();
     Sucursal updateSucursal(Sucursal sucursal);
     void deleteSucursalById(Integer id);
-    List<Trabajador> findAllTrabajadoresBySucursal(Integer id);
+    List<Sucursal> getAllActive();
+    List<Sucursal> getAllInactive();
 }
