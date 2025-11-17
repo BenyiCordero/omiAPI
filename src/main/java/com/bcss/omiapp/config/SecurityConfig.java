@@ -58,6 +58,7 @@ public class SecurityConfig {
                                 .requestMatchers("/worker/**").hasAnyRole("ADMIN", "WORKER")
                                 .requestMatchers("/sucursal/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/client/**").hasAnyRole("ADMIN", "WORKER")
+                                .requestMatchers("/product/**").hasAnyRole("ADMIN", "WORKER")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
