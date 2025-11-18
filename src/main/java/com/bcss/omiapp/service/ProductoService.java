@@ -13,4 +13,6 @@ public interface ProductoService {
     Producto update(Integer id, ProductoUpdateRequest productoUpdateRequest);
     Boolean deleteById(Integer idProducto);
     List<Producto> findAll();
+    List<Producto> findAllActivo();
+    List<Producto> findAllInactivo();
 }

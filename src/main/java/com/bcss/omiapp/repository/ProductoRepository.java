@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findByNombreStartingWithIgnoreCase(String nombre);
+
+    List<Producto> findByActivo(Boolean activo);
 }

@@ -43,7 +43,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Optional<Producto> findById(Integer idProducto) {
         Optional<Producto> producto = productoRepository.findById(idProducto);
-        if(producto.isPresent()) return producto;
+        if(!producto.isEmpty()) return producto;
         else throw new NotFoundException("Producto no encontrado");
     }
 
@@ -92,6 +92,7 @@ public class ProductoServiceImpl implements ProductoService {
         Optional<Producto> producto = productoRepository.findById(idProducto);
         if(producto.isPresent()) {
             producto.get().setActivo(false);
+            productoRepository.save(producto.get());
             return true;
         }
         else {
@@ -105,6 +106,20 @@ public class ProductoServiceImpl implements ProductoService {
         if(productos.isEmpty()) {
             throw new EmptyObject("No existen productos para mostrar");
         }
+        else return productos;
+    }
+
+    @Override
+    public List<Producto> findAllActivo() {
+        List<Producto> productos = productoRepository.findByActivo(true);
+        if(productos.isEmpty()) throw new EmptyObject("No existen productos para mostrar");
+        else return productos;
+    }
+
+    @Override
+    public List<Producto> findAllInactivo() {
+        List<Producto> productos = productoRepository.findByActivo(false);
+        if(productos.isEmpty()) throw new EmptyObject("No existen productos para mostrar");
         else return productos;
     }
 }

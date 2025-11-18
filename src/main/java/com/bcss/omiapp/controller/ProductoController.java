@@ -50,4 +50,14 @@ public class ProductoController {
         return ResponseEntity.status(HttpStatus.OK).body(productoService.findAll());
     }
 
+    @GetMapping("/activo")
+    public ResponseEntity<?> findByActivo() {
+        return ResponseEntity.status(HttpStatus.OK).body(productoService.findAllActivo());
+    }
+
+    @GetMapping("/inactivo")
+    public ResponseEntity<?> findByInactivo() {
+        return ResponseEntity.status(HttpStatus.OK).body(productoService.findAllInactivo());
+    }
+
 }
