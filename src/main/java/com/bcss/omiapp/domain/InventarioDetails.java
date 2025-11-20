@@ -1,5 +1,6 @@
 package com.bcss.omiapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,7 @@ public class InventarioDetails {
     private LocalDate fechaAgregado;
     @ManyToOne
     @JoinColumn(name = "idInventario", nullable = false)
+    @JsonBackReference
     private Inventario inventario;
     @ManyToOne
     @JoinColumn(name = "idProducto", nullable = false)

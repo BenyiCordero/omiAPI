@@ -1,5 +1,6 @@
 package com.bcss.omiapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +26,11 @@ public class Inventario {
     private String descripcion;
     @Column(nullable = false)
     private LocalDate fechaCreacion;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "idSucursal", referencedColumnName = "idSucursal")
     private Sucursal sucursal;
     @OneToMany(mappedBy = "inventario", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<InventarioDetails> detalles;
 
 }

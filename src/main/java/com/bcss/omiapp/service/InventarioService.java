@@ -2,6 +2,7 @@ package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Inventario;
 import com.bcss.omiapp.domain.InventarioDetails;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
