@@ -1,5 +1,6 @@
 package com.bcss.omiapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,5 +29,6 @@ public class Sucursal {
     @OneToMany(mappedBy = "sucursal")
     private List<Trabajador> trabajadores;
     @OneToOne(mappedBy = "sucursal") // indica que Inventario es el dueño de la relación
+    @JsonIgnore
     private Inventario inventario;
 }
