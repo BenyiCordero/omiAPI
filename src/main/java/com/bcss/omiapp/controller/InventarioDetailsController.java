@@ -49,8 +49,8 @@ public class InventarioDetailsController {
         return ResponseEntity.status(HttpStatus.OK).body(service.update(id, inventarioDetails));
     }
 
-                                                 @DeleteMapping("/{id}")
-                                                 public ResponseEntity<?> delete(@PathVariable Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
