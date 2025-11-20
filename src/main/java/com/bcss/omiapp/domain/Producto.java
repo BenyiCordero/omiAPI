@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -33,5 +35,7 @@ public class Producto {
     private Float costo;
     @Column(nullable = false)
     private Boolean activo;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<ProductoImagen> imagenes;
 
 }
