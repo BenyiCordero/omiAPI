@@ -1,6 +1,6 @@
 package com.bcss.omiapp.service;
 
-import com.bcss.omiapp.auth.TokenType;
+import com.bcss.omiapp.domain.TokenType;
 import com.bcss.omiapp.domain.Persona;
 import com.bcss.omiapp.domain.Token;
 import com.bcss.omiapp.domain.Trabajador;

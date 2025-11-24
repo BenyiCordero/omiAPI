@@ -1,6 +1,6 @@
 package com.bcss.omiapp.dto.request;
 
-import com.bcss.omiapp.auth.Rol;
+import com.bcss.omiapp.domain.Rol;
 
 public record TrabajadorRegisterRequest(
         //Persona

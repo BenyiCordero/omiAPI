@@ -24,9 +24,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleException(RepeatedException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-
     @ExceptionHandler
     public ResponseEntity<String> handleException(EmptyObject e) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(e.getMessage());
+    }
+    @ExceptionHandler
+    public ResponseEntity<String> handleException(CancelledSellException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }
