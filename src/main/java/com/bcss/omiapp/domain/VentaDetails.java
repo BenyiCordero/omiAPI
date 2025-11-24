@@ -16,10 +16,10 @@ public class VentaDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idVentaDetails;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "idProducto", referencedColumnName = "idProducto")
     private Producto producto;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "idVenta", referencedColumnName = "idVenta")
     private Venta venta;
     @Column(nullable = false)
