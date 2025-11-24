@@ -1,7 +1,6 @@
 package com.bcss.omiapp.config;
 
 import com.bcss.omiapp.auth.JwtAuthenticationFiter;
-import com.bcss.omiapp.auth.Rol;
 import com.bcss.omiapp.domain.Token;
 import com.bcss.omiapp.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,6 +61,7 @@ public class SecurityConfig {
                                 .requestMatchers("/inventory/**").hasAnyRole("ADMIN", "WORKER")
                                 .requestMatchers("/inventoryDetails/**").hasAnyRole("ADMIN", "WORKER")
                                 .requestMatchers("/productImage/**").hasAnyRole("ADMIN", "WORKER")
+                                .requestMatchers("/sell/**").hasAnyRole("ADMIN", "WORKER")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))

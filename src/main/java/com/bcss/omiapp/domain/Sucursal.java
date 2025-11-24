@@ -28,7 +28,7 @@ public class Sucursal {
     private Boolean activo;
     @OneToMany(mappedBy = "sucursal")
     private List<Trabajador> trabajadores;
-    @OneToOne(mappedBy = "sucursal") // indica que Inventario es el dueño de la relación
+    @OneToOne(mappedBy = "sucursal") 
     @JsonIgnore
     private Inventario inventario;
 }

@@ -1,4 +1,4 @@
-package com.bcss.omiapp.auth;
+package com.bcss.omiapp.domain;
 
 public enum TokenType {
     BEARER

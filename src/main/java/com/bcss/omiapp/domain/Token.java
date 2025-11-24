@@ -1,6 +1,5 @@
 package com.bcss.omiapp.domain;
 
-import com.bcss.omiapp.auth.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

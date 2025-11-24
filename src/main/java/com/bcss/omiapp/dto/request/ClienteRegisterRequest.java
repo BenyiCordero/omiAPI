@@ -1,7 +1,5 @@
 package com.bcss.omiapp.dto.request;
 
-import com.bcss.omiapp.auth.Rol;
-
 public record ClienteRegisterRequest(
         //Persona
         String nombre,
