@@ -18,12 +18,12 @@ public class CreditoController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(service.getAll());
+        return ResponseEntity.ok(service.getAllList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(service.getById(id));
+        return ResponseEntity.ok(service.getByIdDetail(id));
     }
 
     @PostMapping

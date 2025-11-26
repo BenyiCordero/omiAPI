@@ -4,10 +4,13 @@ import com.bcss.omiapp.domain.Producto;
 import com.bcss.omiapp.domain.Venta;
 import com.bcss.omiapp.domain.VentaDetails;
 import com.bcss.omiapp.dto.request.VentaDetailsRequest;
+import com.bcss.omiapp.dto.response.VentaDetailsListResponse;
+import com.bcss.omiapp.dto.response.VentaDetailsDetailResponse;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.repository.ProductoRepository;
 import com.bcss.omiapp.repository.VentaDetailsRepository;
 import com.bcss.omiapp.repository.VentaRepository;
+import com.bcss.omiapp.mappers.VentaDetailsMapper;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
@@ -19,11 +22,16 @@ public class VentaDetailsServiceImpl implements VentaDetailsService {
     private final VentaDetailsRepository repository;
     private final VentaRepository ventaRepository;
     private final ProductoRepository productoRepository;
+    private final VentaDetailsMapper ventaDetailsMapper;
 
-    public VentaDetailsServiceImpl(VentaDetailsRepository repository, VentaRepository ventaRepository, ProductoRepository productoRepository) {
+    public VentaDetailsServiceImpl(VentaDetailsRepository repository, 
+                                  VentaRepository ventaRepository, 
+                                  ProductoRepository productoRepository,
+                                  VentaDetailsMapper ventaDetailsMapper) {
         this.repository = repository;
         this.ventaRepository = ventaRepository;
         this.productoRepository = productoRepository;
+        this.ventaDetailsMapper = ventaDetailsMapper;
     }
 
     @Override
@@ -97,5 +105,23 @@ public class VentaDetailsServiceImpl implements VentaDetailsService {
     public void delete(Integer id) {
         VentaDetails existing = getById(id);
         repository.delete(existing);
+    }
+
+    @Override
+    public VentaDetailsListResponse getAllList() {
+        List<VentaDetails> detalles = repository.findAll();
+        if (detalles.isEmpty()) {
+            throw new NotFoundException("No hay detalles de venta para mostrar");
+        }
+        return new VentaDetailsListResponse(detalles.stream()
+            .map(ventaDetailsMapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public VentaDetailsDetailResponse getByIdDetail(Integer id) {
+        VentaDetails detalle = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Detalle de venta no encontrado"));
+        return ventaDetailsMapper.mapToDetail(detalle);
     }
 }

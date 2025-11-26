@@ -4,6 +4,9 @@ import com.bcss.omiapp.domain.Cliente;
 import com.bcss.omiapp.domain.Persona;
 import com.bcss.omiapp.dto.request.ClienteRegisterRequest;
 import com.bcss.omiapp.dto.request.ClienteUpdateRequest;
+import com.bcss.omiapp.dto.response.ClienteListResponse;
+import com.bcss.omiapp.dto.response.ClienteDetailResponse;
+import com.bcss.omiapp.mappers.ClienteMapper;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
@@ -17,10 +20,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final PersonaService personaService;
+    private final ClienteMapper clienteMapper;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, PersonaService personaService) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, PersonaService personaService, ClienteMapper clienteMapper) {
         this.clienteRepository = clienteRepository;
         this.personaService = personaService;
+        this.clienteMapper = clienteMapper;
     }
 
     @Transactional
@@ -118,6 +123,24 @@ public class ClienteServiceImpl implements ClienteService {
         existing.setPersona(savedPersona);
 
         return clienteRepository.save(existing);
+    }
+
+    @Override
+    public ClienteListResponse getAllList() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        if (clientes.isEmpty()) {
+            throw new NotFoundException("No hay clientes para mostrar");
+        }
+        return new ClienteListResponse(clientes.stream()
+            .map(clienteMapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public ClienteDetailResponse getByIdDetail(Integer id) {
+        Cliente cliente = clienteRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Cliente no encontrado"));
+        return clienteMapper.mapToDetail(cliente);
     }
 
 }

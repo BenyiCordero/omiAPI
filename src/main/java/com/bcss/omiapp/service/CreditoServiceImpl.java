@@ -6,6 +6,8 @@ import com.bcss.omiapp.domain.EnumEstadoCredito;
 import com.bcss.omiapp.domain.Venta;
 import com.bcss.omiapp.dto.request.CreditoRequest;
 import com.bcss.omiapp.dto.response.CreditoResponse;
+import com.bcss.omiapp.dto.response.CreditoListResponse;
+import com.bcss.omiapp.dto.response.CreditoDetailResponse;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.mappers.CreditoMapper;
 import com.bcss.omiapp.repository.ClienteRepository;
@@ -33,6 +35,22 @@ public class CreditoServiceImpl implements CreditoService {
         this.ventaRepository = ventaRepository;
         this.clienteRepository = clienteRepository;
         this.mapper = mapper;
+    }
+
+    @Override
+    public CreditoListResponse getAllList() {
+        List<Credito> creditos = repository.findAll();
+        if (creditos.isEmpty()) throw new NotFoundException("No hay creditos para mostrar");
+        return new CreditoListResponse(creditos.stream()
+            .map(mapper::mapToResponse)
+            .toList());
+    }
+
+    @Override
+    public CreditoDetailResponse getByIdDetail(Integer id) {
+        Credito credito = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("No hay credito con id " + id));
+        return mapper.mapToDetail(credito);
     }
 
     @Override

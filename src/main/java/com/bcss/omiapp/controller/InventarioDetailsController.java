@@ -2,6 +2,8 @@ package com.bcss.omiapp.controller;
 
 import com.bcss.omiapp.domain.InventarioDetails;
 import com.bcss.omiapp.dto.request.InventarioDetailsRequest;
+import com.bcss.omiapp.dto.response.InventarioDetailsListResponse;
+import com.bcss.omiapp.dto.response.InventarioDetailsDetailResponse;
 import com.bcss.omiapp.service.InventarioDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ public class InventarioDetailsController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllList());
     }
 
     @GetMapping("/disponibles")
@@ -36,7 +38,7 @@ public class InventarioDetailsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getByIdDetail(id));
     }
 
     @PostMapping

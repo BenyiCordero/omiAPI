@@ -4,10 +4,13 @@ import com.bcss.omiapp.domain.Inventario;
 import com.bcss.omiapp.domain.InventarioDetails;
 import com.bcss.omiapp.domain.Producto;
 import com.bcss.omiapp.dto.request.InventarioDetailsRequest;
+import com.bcss.omiapp.dto.response.InventarioDetailsListResponse;
+import com.bcss.omiapp.dto.response.InventarioDetailsDetailResponse;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.repository.InventarioDetailsRepository;
 import com.bcss.omiapp.repository.InventarioRepository;
 import com.bcss.omiapp.repository.ProductoRepository;
+import com.bcss.omiapp.mappers.InventarioDetailsMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,13 +22,16 @@ public class InventarioDetailsServiceImpl implements InventarioDetailsService {
     private final InventarioDetailsRepository repository;
     private final ProductoRepository productoRepository;
     private final InventarioRepository inventarioRepository;
+    private final InventarioDetailsMapper inventarioDetailsMapper;
 
     public InventarioDetailsServiceImpl(InventarioDetailsRepository repository,
                                         ProductoRepository productoRepository,
-                                        InventarioRepository inventarioRepository) {
+                                        InventarioRepository inventarioRepository,
+                                        InventarioDetailsMapper inventarioDetailsMapper) {
         this.repository = repository;
         this.productoRepository = productoRepository;
         this.inventarioRepository = inventarioRepository;
+        this.inventarioDetailsMapper = inventarioDetailsMapper;
     }
 
     @Override
@@ -115,5 +121,23 @@ public class InventarioDetailsServiceImpl implements InventarioDetailsService {
     public List<InventarioDetails> getByProducto(Integer idProducto) {
         if (!productoRepository.findById(idProducto).isPresent()) throw new NotFoundException("Producto no encontrado");
         else return repository.findByProductoIdProductoAndDisponibleTrue(idProducto);
+    }
+
+    @Override
+    public InventarioDetailsListResponse getAllList() {
+        List<InventarioDetails> detalles = repository.findAll();
+        if (detalles.isEmpty()) {
+            throw new NotFoundException("No hay detalles de inventario para mostrar");
+        }
+        return new InventarioDetailsListResponse(detalles.stream()
+            .map(inventarioDetailsMapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public InventarioDetailsDetailResponse getByIdDetail(Integer id) {
+        InventarioDetails detalle = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Detalle de inventario no encontrado"));
+        return inventarioDetailsMapper.mapToDetail(detalle);
     }
 }

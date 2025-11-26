@@ -3,6 +3,8 @@ package com.bcss.omiapp.service;
 import com.bcss.omiapp.domain.*;
 import com.bcss.omiapp.dto.request.VentaRequest;
 import com.bcss.omiapp.dto.response.VentaResponse;
+import com.bcss.omiapp.dto.response.VentaListResponse;
+import com.bcss.omiapp.dto.response.VentaDetailResponse;
 import com.bcss.omiapp.exception.CancelledSellException;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.mappers.VentaMapper;
@@ -39,6 +41,24 @@ public class VentaServiceImpl implements VentaService {
     }
 
     @Override
+    public VentaListResponse getAllList(EnumEstadoVenta estado) {
+        List<Venta> ventas;
+        if (estado != null) ventas = repository.findByEstado(estado);
+        else ventas = repository.findAll();
+        if (ventas.isEmpty()) throw new NotFoundException("No hay ventas para mostrar");
+        return new VentaListResponse(ventas.stream()
+            .map(mapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public VentaDetailResponse getByIdDetail(Integer id) {
+        Venta venta = repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("No hay venta con id " + id));
+        return mapper.mapToDetail(venta);
+    }
+
+    @Override
     public List<VentaResponse> getAll(EnumEstadoVenta estado) {
         List<Venta> ventas;
         if (estado != null) ventas = repository.findByEstado(estado);
@@ -48,7 +68,6 @@ public class VentaServiceImpl implements VentaService {
         for (Venta v: ventas) ventasResponse.add(mapper.mapToResponse(v));
         return ventasResponse;
     }
-
 
     @Override
     public VentaResponse getById(Integer id) {

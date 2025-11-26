@@ -3,6 +3,9 @@ package com.bcss.omiapp.service;
 import com.bcss.omiapp.domain.Persona;
 import com.bcss.omiapp.domain.Producto;
 import com.bcss.omiapp.dto.request.ProductoUpdateRequest;
+import com.bcss.omiapp.dto.response.ProductoListResponse;
+import com.bcss.omiapp.dto.response.ProductoDetailResponse;
+import com.bcss.omiapp.mappers.ProductoMapper;
 import com.bcss.omiapp.exception.EmptyObject;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.repository.ProductoRepository;
@@ -15,9 +18,11 @@ import java.util.Optional;
 public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final ProductoMapper productoMapper;
 
-    public ProductoServiceImpl(ProductoRepository productoRepository) {
+    public ProductoServiceImpl(ProductoRepository productoRepository, ProductoMapper productoMapper) {
         this.productoRepository = productoRepository;
+        this.productoMapper = productoMapper;
     }
 
     @Override
@@ -45,6 +50,13 @@ public class ProductoServiceImpl implements ProductoService {
         Optional<Producto> producto = productoRepository.findById(idProducto);
         if(!producto.isEmpty()) return producto;
         else throw new NotFoundException("Producto no encontrado");
+    }
+
+    @Override
+    public ProductoDetailResponse findByIdDetail(Integer idProducto) {
+        Producto producto = productoRepository.findById(idProducto)
+            .orElseThrow(() -> new NotFoundException("Producto no encontrado"));
+        return productoMapper.mapToDetail(producto);
     }
 
     @Override
@@ -98,6 +110,17 @@ public class ProductoServiceImpl implements ProductoService {
         else {
             throw new NotFoundException("Producto no encontrado");
         }
+    }
+
+    @Override
+    public ProductoListResponse findAllList() {
+        List<Producto> productos = productoRepository.findAll();
+        if(productos.isEmpty()) {
+            throw new EmptyObject("No existen productos para mostrar");
+        }
+        return new ProductoListResponse(productos.stream()
+            .map(productoMapper::mapToBasic)
+            .toList());
     }
 
     @Override

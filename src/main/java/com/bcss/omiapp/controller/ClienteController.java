@@ -4,6 +4,8 @@ import com.bcss.omiapp.domain.Cliente;
 import com.bcss.omiapp.dto.request.ClienteNombreRequest;
 import com.bcss.omiapp.dto.request.ClienteRegisterRequest;
 import com.bcss.omiapp.dto.request.ClienteUpdateRequest;
+import com.bcss.omiapp.dto.response.ClienteListResponse;
+import com.bcss.omiapp.dto.response.ClienteDetailResponse;
 import com.bcss.omiapp.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +28,12 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.getByIdDetail(id));
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllClientes(){
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.findAllClientes());
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.getAllList());
     }
 
     @GetMapping("/nombre")

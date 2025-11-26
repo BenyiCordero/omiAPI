@@ -2,8 +2,8 @@ package com.bcss.omiapp.dto.response;
 
 public record CreditoResponse(
         Integer idCredito,
-        Integer idCliente,
-        Integer idVenta,
+        ClienteBasicResponse cliente,
+        VentaBasicResponse venta,
         Double montoInicial,
         Double saldo,
         Double tasaInteres,
