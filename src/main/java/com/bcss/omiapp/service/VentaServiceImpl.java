@@ -2,8 +2,10 @@ package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.*;
 import com.bcss.omiapp.dto.request.VentaRequest;
+import com.bcss.omiapp.dto.response.VentaResponse;
 import com.bcss.omiapp.exception.CancelledSellException;
 import com.bcss.omiapp.exception.NotFoundException;
+import com.bcss.omiapp.mappers.VentaMapper;
 import com.bcss.omiapp.repository.ClienteRepository;
 import com.bcss.omiapp.repository.SucursalRepository;
 import com.bcss.omiapp.repository.TrabajadorRepository;
@@ -11,6 +13,7 @@ import com.bcss.omiapp.repository.VentaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,31 +24,37 @@ public class VentaServiceImpl implements VentaService {
     private final SucursalRepository sucursalRepository;
     private final TrabajadorRepository trabajadorRepository;
     private final ClienteRepository clienteRepository;
+    private final VentaMapper mapper;
 
     public VentaServiceImpl(VentaRepository repository,
                             ClienteRepository clienteRepository,
                             TrabajadorRepository trabajadorRepository,
-                            SucursalRepository sucursalRepository) {
+                            SucursalRepository sucursalRepository,
+                            VentaMapper mapper) {
         this.repository = repository;
         this.clienteRepository = clienteRepository;
         this.trabajadorRepository = trabajadorRepository;
         this.sucursalRepository = sucursalRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public List<Venta> getAll(EnumEstadoVenta estado) {
+    public List<VentaResponse> getAll(EnumEstadoVenta estado) {
         List<Venta> ventas;
         if (estado != null) ventas = repository.findByEstado(estado);
         else ventas = repository.findAll();
         if (ventas.isEmpty()) throw new NotFoundException("No hay ventas para mostrar");
-        return ventas;
+        List<VentaResponse> ventasResponse = new ArrayList<>();
+        for (Venta v: ventas) ventasResponse.add(mapper.mapToResponse(v));
+        return ventasResponse;
     }
 
 
     @Override
-    public Venta getById(Integer id) {
+    public VentaResponse getById(Integer id) {
         Optional<Venta> venta = repository.findById(id);
-        if (venta.isPresent()) return venta.get();
+        VentaResponse response = mapper.mapToResponse(venta.get());
+        if (venta.isPresent()) return response;
         else throw new NotFoundException("No hay venta con id " + id);
     }
 
