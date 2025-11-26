@@ -2,6 +2,8 @@ package com.bcss.omiapp.controller;
 
 import com.bcss.omiapp.domain.VentaDetails;
 import com.bcss.omiapp.dto.request.VentaDetailsRequest;
+import com.bcss.omiapp.dto.response.VentaDetailsListResponse;
+import com.bcss.omiapp.dto.response.VentaDetailsDetailResponse;
 import com.bcss.omiapp.service.VentaDetailsService;
 import com.bcss.omiapp.service.VentaService;
 import org.springframework.http.HttpStatus;
@@ -19,15 +21,15 @@ public class VentaDetailsController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll());
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getByIdDetail(id));
     }
 
-    @GetMapping("venta/{id}")
+    @GetMapping("/venta/{id}")
     public ResponseEntity<?> getByVenta(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getByVenta(id));
     }

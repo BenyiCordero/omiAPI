@@ -4,6 +4,9 @@ import com.bcss.omiapp.domain.Trabajador;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.TrabajadorRepository;
+import com.bcss.omiapp.dto.response.TrabajadorListResponse;
+import com.bcss.omiapp.dto.response.TrabajadorDetailResponse;
+import com.bcss.omiapp.mappers.TrabajadorMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +16,11 @@ import java.util.Optional;
 public class TrabajadorServiceImpl implements TrabajadorService {
 
     private final TrabajadorRepository trabajadorRepository;
+    private final TrabajadorMapper trabajadorMapper;
 
-    public TrabajadorServiceImpl(TrabajadorRepository trabajadorRepository) {
+    public TrabajadorServiceImpl(TrabajadorRepository trabajadorRepository, TrabajadorMapper trabajadorMapper) {
         this.trabajadorRepository = trabajadorRepository;
+        this.trabajadorMapper = trabajadorMapper;
     }
 
     @Override
@@ -41,5 +46,23 @@ public class TrabajadorServiceImpl implements TrabajadorService {
     @Override
     public List<Trabajador> findAllTrabajadoresBySucursal(Integer id) {
         return null;
+    }
+
+    @Override
+    public TrabajadorListResponse getAllList() {
+        List<Trabajador> trabajadores = trabajadorRepository.findAll();
+        if (trabajadores.isEmpty()) {
+            throw new NotFoundException("No hay trabajadores para mostrar");
+        }
+        return new TrabajadorListResponse(trabajadores.stream()
+            .map(trabajadorMapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public TrabajadorDetailResponse getByIdDetail(Integer id) {
+        Trabajador trabajador = trabajadorRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Trabajador no encontrado"));
+        return trabajadorMapper.mapToDetail(trabajador);
     }
 }

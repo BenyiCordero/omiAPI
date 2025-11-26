@@ -23,12 +23,12 @@ public class VentaController {
 
     @GetMapping
     public ResponseEntity<?> getAll(@RequestParam(required = false) EnumEstadoVenta estado) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getAll(estado));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllList(estado));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getByIdDetail(id));
     }
 
     @PostMapping

@@ -2,10 +2,15 @@ package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Sucursal;
 import com.bcss.omiapp.domain.Trabajador;
+import com.bcss.omiapp.dto.response.TrabajadorBasicResponse;
 import com.bcss.omiapp.exception.EmptyObject;
 import com.bcss.omiapp.exception.NotFoundException;
 import com.bcss.omiapp.exception.RepeatedException;
 import com.bcss.omiapp.repository.SucursalRepository;
+import com.bcss.omiapp.dto.response.SucursalListResponse;
+import com.bcss.omiapp.dto.response.SucursalDetailResponse;
+import com.bcss.omiapp.mappers.SucursalMapper;
+import com.bcss.omiapp.mappers.TrabajadorMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -20,9 +25,15 @@ import java.util.Optional;
 public class SucursalServiceImpl implements SucursalService {
 
     private final SucursalRepository sucursalRepository;
+    private final SucursalMapper sucursalMapper;
+    private final TrabajadorMapper trabajadorMapper;
 
-    public SucursalServiceImpl(SucursalRepository sucursalRepository) {
+    public SucursalServiceImpl(SucursalRepository sucursalRepository,
+                              SucursalMapper sucursalMapper,
+                              TrabajadorMapper trabajadorMapper) {
         this.sucursalRepository = sucursalRepository;
+        this.sucursalMapper = sucursalMapper;
+        this.trabajadorMapper = trabajadorMapper;
     }
 
 
@@ -87,4 +98,41 @@ public class SucursalServiceImpl implements SucursalService {
         if (!sucursales.isEmpty()) return sucursales;
         else throw new EmptyObject("No hay sucursales para mostrar");
     }
+
+    @Override
+    public SucursalListResponse getAllList() {
+        List<Sucursal> sucursales = sucursalRepository.findAll();
+        if (sucursales.isEmpty()) {
+            throw new EmptyObject("No hay sucursales para mostrar");
+        }
+        return new SucursalListResponse(sucursales.stream()
+            .map(sucursalMapper::mapToBasic)
+            .toList());
+    }
+
+    @Override
+    public SucursalDetailResponse getByIdDetail(Integer id) {
+
+        Sucursal sucursal = sucursalRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Sucursal no encontrada"));
+
+        // Evita NPE cuando la lista viene null
+        List<Trabajador> trabajadores = sucursal.getTrabajadores();
+
+        List<TrabajadorBasicResponse> trabajadoresBasic =
+                trabajadores == null
+                        ? List.of()
+                        : trabajadores.stream()
+                        .map(trabajadorMapper::mapToBasic)
+                        .toList();
+
+        return new SucursalDetailResponse(
+                sucursal.getIdSucursal(),
+                sucursal.getNombre(),
+                sucursal.getSucursalKey(),
+                sucursal.getActivo(),
+                trabajadoresBasic
+        );
+    }
+
 }

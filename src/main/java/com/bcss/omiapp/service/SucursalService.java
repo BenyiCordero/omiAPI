@@ -2,6 +2,8 @@ package com.bcss.omiapp.service;
 
 import com.bcss.omiapp.domain.Sucursal;
 import com.bcss.omiapp.domain.Trabajador;
+import com.bcss.omiapp.dto.response.SucursalListResponse;
+import com.bcss.omiapp.dto.response.SucursalDetailResponse;
 
 import java.util.List;
 
@@ -14,4 +16,8 @@ public interface SucursalService {
     void deleteSucursalById(Integer id);
     List<Sucursal> getAllActive();
     List<Sucursal> getAllInactive();
+    
+    // Nuevos métodos con DTOs consistentes
+    SucursalListResponse getAllList();
+    SucursalDetailResponse getByIdDetail(Integer id);
 }

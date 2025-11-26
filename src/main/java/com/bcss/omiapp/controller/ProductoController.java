@@ -32,7 +32,7 @@ public class ProductoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(productoService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(productoService.findByIdDetail(id));
     }
 
     @PutMapping("/{id}")
@@ -46,8 +46,8 @@ public class ProductoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Producto>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(productoService.findAll());
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(productoService.findAllList());
     }
 
     @GetMapping("/activo")
